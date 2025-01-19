@@ -42,9 +42,6 @@ export async function GET(request: Request) {
 
     const data = (await response.json())[0];
 
-    console.log(data)
-
-
     if (!data) {
       return NextResponse.json(
         { error: "Failed to fetch token data." },
