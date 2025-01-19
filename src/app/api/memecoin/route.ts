@@ -29,7 +29,7 @@ export async function GET(request: Request) {
       );
     }
 
-    const data = (await response.json())[0];
+    const data = (await response.json());
 
     if (!data) {
       return NextResponse.json(
