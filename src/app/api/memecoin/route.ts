@@ -9,6 +9,17 @@ export async function GET(request: Request) {
 
   const chainId = "solana";
 
+  function formatNumber(num: number) {
+    if (num >= 1e9) {
+      return (num / 1e9).toFixed(2) + "B"; // Billions
+    } else if (num >= 1e6) {
+      return (num / 1e6).toFixed(2) + "M"; // Millions
+    } else if (num >= 1e3) {
+      return (num / 1e3).toFixed(2) + "k"; // Thousands
+    }
+    return num.toFixed(2); // Return as-is for smaller numbers
+  }
+
   if (!contractAddress) {
     return NextResponse.json(
       { error: "Contract address (ca) is required." },
@@ -29,7 +40,10 @@ export async function GET(request: Request) {
       );
     }
 
-    const data = (await response.json());
+    const data = (await response.json())[0];
+
+    console.log(data)
+
 
     if (!data) {
       return NextResponse.json(
@@ -42,11 +56,16 @@ export async function GET(request: Request) {
       name: data.baseToken.name,
       symbol: data.baseToken.symbol,
       address: data.baseToken.address,
-      marketCap: data.marketCap,
+      marketCap:formatNumber(data.marketCap),
       price: data.priceUsd,
-      circulatingSupply: data.marketCap / data.priceUsd,
-      totalSupply: data.fdv / data.priceUsd,
+      image:data.info.imageUrl,
+      priceChanges:data.priceChange,
+      dexscrennerUrl:data.url,
+      website:data.info.websites[0].url,
+      twitter:data.info.socials[0].type == "twitter" ? data.info.socials[0].url:"No Twitter",
     };
+
+
 
     return NextResponse.json(result, { status: 200 });
   } catch (error) {

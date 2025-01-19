@@ -35,8 +35,8 @@ export const GET = async (req:Request) => {
       actions:[
         {
           label: "Search",
-          href: `/api/actions/contract-address/ca={ca}`,
-          type: "message",
+          href: `/api/actions/contract-address?ca={ca}`,
+          type: "post",
           parameters:[
             {
               name:"ca",
@@ -61,17 +61,46 @@ export const POST = async (req: NextRequest) => {
   try {
 
     const body = await req.json();
-
     const { searchParams } = new URL(req.url);
     const contractAddress = searchParams.get("ca") ?? "";
     const orgKey = body.account;
 
-    const memedetails = fetch(`/api/memecoin/ca=${contractAddress}`)
+    const memedetails = await fetch(`http://localhost:3000/api/memecoin?ca=${contractAddress}`)
 
-    const data = (await memedetails).json()
-    console.log(data)
+    const data = await memedetails.json();
 
-    return data;
+    return Response.json({
+      type:"action",
+      title:`${data.name} (${data.symbol})`,
+      label:"BUY",
+      icon:`${data.image}`,
+      description:`
+      Price : $${data.price}
+      5m : ${data.priceChanges.m5}%, 1hr : ${data.priceChanges.h1}%, 6hr : ${data.priceChanges.h6}%, 24hr : ${data.priceChanges.h24}%
+      Market Cap : ${data.marketCap}
+      `,
+      links:{
+        actions:[
+          {
+            type:"external-link",
+            label:"Dexscreener",
+            href:`${data.dexscrennerUrl}`,
+          },
+          {
+            type:"external-link",
+            label:"Website",
+            href:`${data.website}`,
+          },
+          {
+            type:"external-link",
+            label:"Twitter",
+            href:`${data.twitter}`,
+          },
+        ]
+
+      }
+
+    }satisfies Action);
 
     
 
