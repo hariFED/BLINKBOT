@@ -1,13 +1,12 @@
+// app/page.tsx
 "use client";
 
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import ConnectButton from "./components/AppWalletProvider";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="flex items-center justify-center min-h-screen">
-      <div className="border hover:border-slate-900 rounded">
-        <WalletMultiButton style={{}} />
-      </div>
+    <main className="flex flex-col items-center justify-center h-screen">
+      <ConnectButton />
     </main>
   );
 }

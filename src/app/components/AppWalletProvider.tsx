@@ -1,36 +1,51 @@
 "use client";
 
-import React, { useMemo } from "react";
-import {
-  ConnectionProvider,
-  WalletProvider,
-} from "@solana/wallet-adapter-react";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
-import "@solana/wallet-adapter-react-ui/styles.css";
+import "@reown/appkit";
+import { useEffect, useRef } from "react";
+import { createAppKit } from "@reown/appkit/react";
+import { SolanaAdapter } from "@reown/appkit-adapter-solana/react";
+import { solana, solanaTestnet, solanaDevnet } from "@reown/appkit/networks";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 
-export default function AppWalletProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const network = WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-  const wallets = useMemo(
-    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
-    []
-  );
+const ConnectButton = () => {
+  const buttonRef = useRef<HTMLDivElement>(null);
 
-  return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>{children}</WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
-  );
-}
+  useEffect(() => {
+    if (buttonRef.current) {
+      const button = document.createElement("appkit-button");
+      buttonRef.current.appendChild(button);
+    }
+  }, []);
+
+  useEffect(() => {
+    const solanaWeb3JsAdapter = new SolanaAdapter({
+      wallets: [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+    });
+
+    const projectId = "YOUR_PROJECT_ID";
+
+    const metadata = {
+      name: "AppKit",
+      description: "AppKit Solana Example",
+      url: "https://example.com",
+      icons: ["https://avatars.githubusercontent.com/u/179229932"],
+    };
+
+    createAppKit({
+      adapters: [solanaWeb3JsAdapter],
+      networks: [solana, solanaTestnet, solanaDevnet],
+      metadata: metadata,
+      projectId,
+      features: {
+        analytics: true,
+      },
+    });
+  }, []);
+
+  return <div ref={buttonRef}></div>;
+};
+
+export default ConnectButton;
