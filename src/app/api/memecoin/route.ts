@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const DEXSCREENER_API = process.env.PROVIDER_URL;
+const DEXSCREENER_API = process.env.BASE_URL;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -48,21 +48,29 @@ export async function GET(request: Request) {
         { status: 500 }
       );
     }
-
+    console.log(data);
     const result = {
       name: data.baseToken.name,
       symbol: data.baseToken.symbol,
       address: data.baseToken.address,
-      marketCap:formatNumber(data.marketCap),
+      marketCap: formatNumber(data.marketCap),
       price: data.priceUsd,
-      image:data.info.imageUrl,
-      priceChanges:data.priceChange,
-      dexscrennerUrl:data.url,
-      website:data.info.websites[0].url,
-      twitter:data.info.socials[0].type == "twitter" ? data.info.socials[0].url:"No Twitter",
+      image: data.info.imageUrl,
+      priceChanges: data.priceChange,
+      dexscreenerUrl: data.url,
+      website:
+        data.info.websites &&
+        data.info.websites.length > 0 &&
+        data.info.websites[0].url
+          ? data.info.websites[0].url
+          : "No Website Details",
+      twitter:
+        data.info.socials &&
+        data.info.socials.length > 0 &&
+        data.info.socials.find((social) => social.type === "twitter")
+          ? data.info.socials.find((social) => social.type === "twitter").url
+          : "No Twitter",
     };
-
-
 
     return NextResponse.json(result, { status: 200 });
   } catch (error) {

@@ -24,7 +24,7 @@ const headers = createActionHeaders({
 export const GET = async (req: Request) => {
   const payload: ActionGetResponse = {
     title: "BLINKBOT : A blink bonk bot",
-    icon: `${process.env.BASE_URL}/logo.png`,
+    icon: `http://localhost:3000/logo.png`,
     description:
       "Enter the CA(Contract Address) of the memecoin you want to buy",
     label: "Search",

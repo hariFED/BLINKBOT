@@ -8,8 +8,8 @@ export const GET = async () => {
   const payload: ActionsJson = {
     rules: [
       {
-        pathPattern: "/contract-address",
-        apiPath: "/api/actions/contract-address",
+        pathPattern: "http://localhost:3000/contract-address",
+        apiPath: "http://localhost:3000/api/actions/contract-address",
       },
       {
         pathPattern: "/memecoin/*",

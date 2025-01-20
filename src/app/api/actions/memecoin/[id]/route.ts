@@ -1,4 +1,9 @@
-import { Action, ActionError, ACTIONS_CORS_HEADERS, createActionHeaders } from "@solana/actions";
+import {
+  Action,
+  ActionError,
+  ACTIONS_CORS_HEADERS,
+  createActionHeaders,
+} from "@solana/actions";
 import { NextRequest } from "next/server";
 
 const headers = createActionHeaders({
@@ -7,15 +12,15 @@ const headers = createActionHeaders({
 });
 
 export const GET = async () => {
-    return Response.json(
-      { message: "Method not supported" },
-      {
-        headers,
-      }
-    );
-  };
-  
-  export const OPTIONS = GET;
+  return Response.json(
+    { message: "Method not supported" },
+    {
+      headers,
+    }
+  );
+};
+
+export const OPTIONS = GET;
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -29,9 +34,9 @@ export const POST = async (req: NextRequest) => {
 
     const data = await memedetails.json();
 
-    console.log(data)
+    console.log(data);
 
-    const payload = ({
+    const payload = {
       type: "action",
       title: `${data.name} (${data.symbol})`,
       label: "BUY",
@@ -60,11 +65,11 @@ export const POST = async (req: NextRequest) => {
           },
         ],
       },
-    } satisfies Action);
+    } satisfies Action;
 
-    return Response.json(payload,{
-        headers},
-    )
+    return Response.json(payload, {
+      headers,
+    });
   } catch (error) {
     console.error("Error processing POST request:", error);
     return new Response(
