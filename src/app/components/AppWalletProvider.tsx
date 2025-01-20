@@ -4,7 +4,7 @@ import "@reown/appkit";
 import { useEffect, useRef } from "react";
 import { createAppKit } from "@reown/appkit/react";
 import { SolanaAdapter } from "@reown/appkit-adapter-solana/react";
-import { solana, solanaTestnet, solanaDevnet } from "@reown/appkit/networks";
+import { solanaDevnet } from "@reown/appkit/networks";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
@@ -37,7 +37,7 @@ const ConnectButton = () => {
     createAppKit({
 
       adapters: [solanaWeb3JsAdapter],
-      networks: [solana, solanaTestnet, solanaDevnet],
+      networks: [ solanaDevnet],
       metadata: metadata,
       projectId,
       features: {

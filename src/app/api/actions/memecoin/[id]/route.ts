@@ -1,5 +1,6 @@
 import {
   Action,
+  ActionPostResponse,
   createActionHeaders,
 } from "@solana/actions";
 import { NextRequest } from "next/server";
@@ -31,8 +32,10 @@ export const POST = async (req: NextRequest) => {
     );
 
     const data = await memedetails.json();
+    const dexscreenerUrl = new URL(data.dexscreenerUrl)
+    const Website = new URL(data.website)
+    const twitter = new URL(data.twitter)
 
-    console.log(data);
 
     const payload = {
       type: "action",
@@ -49,17 +52,17 @@ export const POST = async (req: NextRequest) => {
           {
             type: "external-link",
             label: "Dexscreener",
-            href: `${data.dexscrennerUrl}`,
+            href: `/api/actions/links/dexscreener?dexScreener=${dexscreenerUrl}&ca=${ca}`,
           },
           {
             type: "external-link",
             label: "Website",
-            href: `${data.website}`,
+            href: `/api/actions/links/website?website=${Website}&ca=${ca}`,
           },
           {
             type: "external-link",
             label: "Twitter",
-            href: `${data.twitter}`,
+            href: `/api/actions/links/twitter?twitter=${twitter}&ca=${ca}`,
           },
         ],
       },

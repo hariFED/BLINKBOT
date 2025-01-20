@@ -3,9 +3,9 @@ import { Blink, useAction } from "@dialectlabs/blinks";
 import { useActionSolanaWalletAdapter } from "@dialectlabs/blinks/hooks/solana";
 
 export default function BlinkProvider() {
-  //   const adapter =
+  
   const { adapter } = useActionSolanaWalletAdapter(
-    "https://solana-devnet-appkit.herokuapp.com"
+    "https://api.devnet.solana.com"
   );
   const { action, isLoading } = useAction({
     url: "http://localhost:3000/contract-address",

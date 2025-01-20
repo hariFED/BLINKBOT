@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const DEXSCREENER_API = process.env.BASE_URL;
+const DEXSCREENER_API = process.env.PROVIDER_URL;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -54,7 +54,6 @@ export async function GET(request: Request) {
       url: string;
     };
 
-    console.log(data);
     const result = {
       name: data.baseToken.name,
       symbol: data.baseToken.symbol,
