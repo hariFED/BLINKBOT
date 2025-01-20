@@ -1,5 +1,5 @@
 import {
-  Action,
+
   ActionPostResponse,
   ACTIONS_CORS_HEADERS,
   createActionHeaders,

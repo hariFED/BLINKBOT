@@ -1,8 +1,4 @@
-import {
-  Action,
-  ActionPostResponse,
-  createActionHeaders,
-} from "@solana/actions";
+import { Action, createActionHeaders } from "@solana/actions";
 import { NextRequest } from "next/server";
 
 const headers = createActionHeaders({
@@ -32,10 +28,9 @@ export const POST = async (req: NextRequest) => {
     );
 
     const data = await memedetails.json();
-    const dexscreenerUrl = new URL(data.dexscreenerUrl)
-    const Website = new URL(data.website)
-    const twitter = new URL(data.twitter)
-
+    const dexscreenerUrl = new URL(data.dexscreenerUrl);
+    const Website = new URL(data.website);
+    const twitter = new URL(data.twitter);
 
     const payload = {
       type: "action",
@@ -63,6 +58,32 @@ export const POST = async (req: NextRequest) => {
             type: "external-link",
             label: "Twitter",
             href: `/api/actions/links/twitter?twitter=${twitter}&ca=${ca}`,
+          },
+          {
+            type: "transaction",
+            label: "1 SOL", // button text
+            href: "/api/donate?amount=10",
+          },
+          {
+            type: "transaction",
+            label: "5 SOL", // button text
+            href: "/api/donate?amount=100",
+          },
+          {
+            type: "transaction",
+            label: "10 SOL", // button text
+            href: "/api/donate?amount=1000",
+          },
+          {
+            type: "transaction",
+            label: "Donate", // button text
+            href: "/api/donate?amount={amount}",
+            parameters: [
+              {
+                name: "amount", // field name
+                label: "Enter a custom SOL amount", // text input placeholder
+              },
+            ],
           },
         ],
       },

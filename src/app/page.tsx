@@ -2,7 +2,6 @@
 "use client";
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import ConnectButton from "./components/AppWalletProvider";
 import BlinkProvider from "./components/BlinkProvider";
 
 export default function HomePage() {
