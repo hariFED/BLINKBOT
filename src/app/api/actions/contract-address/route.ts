@@ -1,19 +1,9 @@
 import { NextRequest } from "next/server";
-import {
-  Transaction,
-  PublicKey,
-  SystemProgram,
-  Connection,
-  clusterApiUrl,
-  LAMPORTS_PER_SOL,
-} from "@solana/web3.js";
+
 import {
   ActionPostResponse,
   createActionHeaders,
-  createPostResponse,
   ActionGetResponse,
-  ActionPostRequest,
-  Action,
   ACTIONS_CORS_HEADERS,
 } from "@solana/actions";
 const headers = createActionHeaders({
@@ -21,7 +11,7 @@ const headers = createActionHeaders({
   actionVersion: "2.2.1",
 });
 
-export const GET = async (req: Request) => {
+export const GET = async () => {
   const payload: ActionGetResponse = {
     title: "BLINKBOT : A blink bonk bot",
     icon: `http://localhost:3000/logo.png`,

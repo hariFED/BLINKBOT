@@ -1,7 +1,5 @@
 import {
   Action,
-  ActionError,
-  ACTIONS_CORS_HEADERS,
   createActionHeaders,
 } from "@solana/actions";
 import { NextRequest } from "next/server";

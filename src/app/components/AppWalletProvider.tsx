@@ -35,6 +35,7 @@ const ConnectButton = () => {
     };
 
     createAppKit({
+      
       adapters: [solanaWeb3JsAdapter],
       networks: [solana, solanaTestnet, solanaDevnet],
       metadata: metadata,

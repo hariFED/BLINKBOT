@@ -48,6 +48,12 @@ export async function GET(request: Request) {
         { status: 500 }
       );
     }
+
+    type Social = {
+      type: string;
+      url: string;
+    };
+
     console.log(data);
     const result = {
       name: data.baseToken.name,
@@ -67,8 +73,10 @@ export async function GET(request: Request) {
       twitter:
         data.info.socials &&
         data.info.socials.length > 0 &&
-        data.info.socials.find((social) => social.type === "twitter")
-          ? data.info.socials.find((social) => social.type === "twitter").url
+        data.info.socials.find((social: Social) => social.type === "twitter")
+          ? data.info.socials.find(
+              (social: Social) => social.type === "twitter"
+            ).url
           : "No Twitter",
     };
 
