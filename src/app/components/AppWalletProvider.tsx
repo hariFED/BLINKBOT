@@ -25,7 +25,7 @@ const ConnectButton = () => {
       wallets: [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
     });
 
-    const projectId = "YOUR_PROJECT_ID";
+    const projectId = "8c91b676dd8de161a3521fd5fd292271";
 
     const metadata = {
       name: "AppKit",
@@ -35,7 +35,7 @@ const ConnectButton = () => {
     };
 
     createAppKit({
-      
+
       adapters: [solanaWeb3JsAdapter],
       networks: [solana, solanaTestnet, solanaDevnet],
       metadata: metadata,
