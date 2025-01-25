@@ -18,26 +18,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [cluster, setCluster] = useState<string | null>("Devnet");
+  
+  
 
-  useEffect(() => {
-    const clusterLocal = localStorage.getItem("cluster");
-    if (clusterLocal) {
-      setCluster(clusterLocal);
-    }
-  }, [cluster]);
-
-  const network = useMemo(() => {
-    switch (cluster) {
-      case "testnet":
-        return WalletAdapterNetwork.Testnet;
-      case "mainnet-beta":
-        return WalletAdapterNetwork.Mainnet;
-      case "devnet":
-      default:
-        return WalletAdapterNetwork.Devnet;
-    }
-  }, [cluster]);
+  const network = "devnet";
 
   // You can also provide a custom RPC endpoint.
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);

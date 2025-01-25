@@ -1,5 +1,8 @@
 import { Action, createActionHeaders } from "@solana/actions";
 import { NextRequest } from "next/server";
+import sharp from "sharp";
+import fetch from "node-fetch";
+
 
 const headers = createActionHeaders({
   chainId: "devnet",
@@ -28,15 +31,42 @@ export const POST = async (req: NextRequest) => {
     );
 
     const data = await memedetails.json();
-    const dexscreenerUrl = new URL(data.dexscreenerUrl);
-    const Website = new URL(data.website);
-    const twitter = new URL(data.twitter);
+    
+
+
+    const imageUrl = data.image;
+    const response = await fetch(imageUrl);
+    const buffer = await response.buffer();
+
+    // Use Sharp to get metadata
+    const metadata = await sharp(buffer).metadata();
+    const originalWidth = metadata.width; // Get the actual width of the image
+
+    if (!originalWidth) {
+      throw new Error("Unable to determine image width from metadata");
+    }
+
+    // Upscale the image by 3x and apply sharpening
+    const upscaledBuffer = await sharp(buffer)
+      .resize({ width: Math.ceil(originalWidth*3) }) // Upscale by 3x
+      .sharpen(10)
+      .toBuffer();
+
+    // Encode the upscaled image to a Base64 URL
+    const upscaledImageBase64 = `data:image/png;base64,${upscaledBuffer.toString("base64")}`;
+    const dxscreen = data.dexscreenerUrl == null ? `${process.env.BASE_URL}/404pagenotfind` : data.dexscreenerUrl;
+    const tweet = data.twitter == null ? `${process.env.BASE_URL}/404pagenotfind` : data.twitter;
+    const webpage = data.website == null ? `${process.env.BASE_URL}/404pagenotfind` : data.dexscreenerUrl;
+
+    const dexscreenerUrl = new URL(dxscreen);
+    const Website = new URL(webpage);
+    const twitter = new URL(tweet);
 
     const payload = {
       type: "action",
       title: `${data.name} (${data.symbol})`,
       label: "BUY",
-      icon: `${data.image}`,
+      icon: upscaledImageBase64,
       description: `
       Price : $${data.price}
       5m : ${data.priceChanges.m5}%, 1hr : ${data.priceChanges.h1}%, 6hr : ${data.priceChanges.h6}%, 24hr : ${data.priceChanges.h24}%

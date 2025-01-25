@@ -62,13 +62,13 @@ export async function GET(request: Request) {
       price: data.priceUsd,
       image: data.info.imageUrl,
       priceChanges: data.priceChange,
-      dexscreenerUrl: data.url,
+      dexscreenerUrl: data.url || null,
       website:
         data.info.websites &&
         data.info.websites.length > 0 &&
         data.info.websites[0].url
           ? data.info.websites[0].url
-          : "No Website Details",
+          : null,
       twitter:
         data.info.socials &&
         data.info.socials.length > 0 &&
@@ -76,7 +76,7 @@ export async function GET(request: Request) {
           ? data.info.socials.find(
               (social: Social) => social.type === "twitter"
             ).url
-          : "No Twitter",
+          : null,
     };
 
     return NextResponse.json(result, { status: 200 });
