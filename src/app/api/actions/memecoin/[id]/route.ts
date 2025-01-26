@@ -30,8 +30,7 @@ export const POST = async (req: NextRequest) => {
       `http://localhost:3000/api/memecoin?ca=${ca}`
     );
 
-    const data = await memedetails.json();
-    
+    const data = await memedetails.json();    
 
 
     const imageUrl = data.image;
@@ -90,28 +89,28 @@ export const POST = async (req: NextRequest) => {
             href: `/api/actions/links/twitter?twitter=${twitter}&ca=${ca}`,
           },
           {
-            type: "transaction",
+            type: "post",
+            label: "0.1 SOL", 
+            href: `/api/actions/swapConfirmation?amount=0.1&contractAddress=${ca}&tokenName=${data.name}&img=${data.image}&price=${data.price}`,
+          },
+          {
+            type: "post",
+            label: "0.5 SOL",
+            href: `/api/actions/swapConfirmation?amount=0.5&contractAddress=${ca}&tokenName=${data.name}&img=${data.image}&price=${data.price}`,
+          },
+          {
+            type: "post",
             label: "1 SOL", // button text
-            href: "/api/donate?amount=10",
+            href: `/api/actions/swapConfirmation?amount=1&contractAddress=${ca}&tokenName=${data.name}&img=${data.image}&price=${data.price}`,
           },
           {
-            type: "transaction",
-            label: "5 SOL", // button text
-            href: "/api/donate?amount=100",
-          },
-          {
-            type: "transaction",
-            label: "10 SOL", // button text
-            href: "/api/donate?amount=1000",
-          },
-          {
-            type: "transaction",
-            label: "Donate", // button text
-            href: "/api/donate?amount={amount}",
+            type: "post",
+            label: "Swap", // button text
+            href: `/api/actions/swapConfirmation?amount={amount}&contractAddress=${ca}&tokenName=${data.name}&img=${data.image}&price=${data.price}`,
             parameters: [
               {
-                name: "amount", // field name
-                label: "Enter a custom SOL amount", // text input placeholder
+                name: "amount",
+                label: "Enter a custom SOL amount",
               },
             ],
           },
