@@ -54,22 +54,25 @@ export async function GET(request: Request) {
       url: string;
     };
 
+
     const result = {
       name: data.baseToken.name,
       symbol: data.baseToken.symbol,
       address: data.baseToken.address,
       marketCap: formatNumber(data.marketCap),
       price: data.priceUsd,
-      image: data.info.imageUrl,
+      image: data.info && data.info.imageUrl ? data.info.imageUrl : `${process.env.BASE_URL}/pagenotfound.png`,
       priceChanges: data.priceChange,
       dexscreenerUrl: data.url || null,
       website:
+        data.info &&
         data.info.websites &&
         data.info.websites.length > 0 &&
         data.info.websites[0].url
           ? data.info.websites[0].url
           : null,
       twitter:
+        data.info &&
         data.info.socials &&
         data.info.socials.length > 0 &&
         data.info.socials.find((social: Social) => social.type === "twitter")
